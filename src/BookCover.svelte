@@ -3,7 +3,7 @@
 	import { focus } from './focus'
 	export let name: string;
 
-	let cafes = ["Plearn", "Coffee Island"];
+	let cafes = [{name: "Plearn", rating: 0.0, atmosphere: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
 	// This is temporary, grab from the document passed from login
 
 	let cafe_name: string;
