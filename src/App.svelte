@@ -27,6 +27,7 @@ import 'firebase/compat/firestore';
                             photoURL: user.photoURL,
                             uid: user.uid,
                             cafeTable: [],
+                            public: true
                         })
                         userDocRef = db.collection("users").doc(user.uid);
                     }

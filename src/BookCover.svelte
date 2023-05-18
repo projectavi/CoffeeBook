@@ -4,7 +4,7 @@
 	export let name: string;
 
 	let cafes = ["Plearn", "Coffee Island"];
-	// This is temporary, pull from firebase
+	// This is temporary, grab from the document passed from login
 
 	let cafe_name: string;
 	let drink_name: string;
