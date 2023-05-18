@@ -3,8 +3,15 @@
 	import { focus } from './focus'
 	export let name: string;
 
-	let cafes = [{name: "Plearn", rating: 0.0, atmosphere: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
+	let cafeObjs = [{name: "Plearn", rating: 0.0, atmosphere: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
+	let coffeeObjs = [];
 	// This is temporary, grab from the document passed from login
+
+	let cafes = [];
+
+	cafeObjs.forEach((obj) => {
+		cafes.push(obj["name"]);
+	});
 
 	let cafe_name: string;
 	let drink_name: string;
@@ -49,7 +56,7 @@
 			setTimeout(() => {
 				clearCafeInput();
 			}, 1000);
-
+		// Route to the page for the cafe
 		}
 		else {
 			alert("Please enter the required information");

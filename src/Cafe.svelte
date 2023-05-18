@@ -1,7 +1,14 @@
 <script>
     export let itemLabel;
     export let highlighted;
+
+    let cafeName = "Plearn";
 </script>
+
+<h1> {cafeName} </h1>
+<!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
+
+
 
 <style>
     li.autocomplete-items {
