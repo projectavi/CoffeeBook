@@ -9,15 +9,14 @@ const app = new App({
 });
 
 const firebaseConfig = {
-	apiKey: "AIzaSyBs0ikzjEXKgKNu42vXk1IA2mxc7_Et6r0",
-	authDomain: "by-the-cover-4309a.firebaseapp.com",
-	projectId: "by-the-cover-4309a",
-	storageBucket: "by-the-cover-4309a.appspot.com",
-	messagingSenderId: "140622140850",
-	appId: "1:140622140850:web:7b59345229d855fc8b40ab",
-	measurementId: "G-989QZFHY7D"
+	apiKey: "AIzaSyCtytXChvkiWtlio29GJ8OTehyz8pI3o-s",
+	authDomain: "coffeebook-2e69d.firebaseapp.com",
+	projectId: "coffeebook-2e69d",
+	storageBucket: "coffeebook-2e69d.appspot.com",
+	messagingSenderId: "654043573805",
+	appId: "1:654043573805:web:6d710f35b132d9f21fd2a4"
 } // Placeholder until firebase app setup is done
 
-firebase.initialiseApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 
 export default app;

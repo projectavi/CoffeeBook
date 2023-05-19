@@ -1,10 +1,15 @@
 <script lang="ts">
 	import Cafe from './Cafe.svelte';
+	import { data } from './store.ts';
 	import { focus } from './focus'
+	import { useNavigate } from 'svelte-navigator';
+	import ListItem from "./ListItem.svelte";
 	export let name: string;
 
-	let cafeObjs = [{name: "Plearn", rating: 0.0, atmosphere: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
-	let coffeeObjs = [];
+	const navigate = useNavigate();
+
+	// let cafeObjs = [{name: "Plearn", rating: 0.0, atmosphere: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
+	let cafeObjs = $data.cafeTable;
 	// This is temporary, grab from the document passed from login
 
 	let cafes = [];
@@ -14,7 +19,6 @@
 	});
 
 	let cafe_name: string;
-	let drink_name: string;
 
 	let filteredCafes = [];
 
@@ -56,7 +60,13 @@
 			setTimeout(() => {
 				clearCafeInput();
 			}, 1000);
+			// Check if the cafe exists and if it does not then make an entry for it
+			let cafeObj = cafeObjs.find(obj => obj["name"] === cafeInputValue);
+			if (cafeObj === undefined) {
+				cafeObj = {name: cafeInputValue, rating: 0.0, atmosphere: 0.0, drinks: [], weights: {}}
+			}
 		// Route to the page for the cafe
+			navigate('/cafe', {state: {cafe: cafeObj}})
 		}
 		else {
 			alert("Please enter the required information");
@@ -95,7 +105,7 @@
 <main>
 	<div id="main">
 		<div id="leftcol">
-			<h1> Add a drink </h1>
+			<h1> Search a Cafe </h1>
 <!-- Add a text input drop down-->
 			<form autocomplete="off" on:submit|preventDefault={submitValue}>
 				<div class="autocomplete">
@@ -107,18 +117,17 @@
 						   on:input={filterCafes}>
 				</div>
 
-				<!-- FILTERED LIST OF COUNTRIES -->
+				<!-- Filtered List Of Cafes -->
 				{#if filteredCafes.length > 0}
 					<ul id="autocomplete-items-list">
 						{#each filteredCafes as cafe, i}
-							<Cafe itemLabel={cafe} highlighted={i === hiLiteIndex} on:click={() => setCafeInputVal(cafe)} />
+							<ListItem itemLabel={cafe} highlighted={i === hiLiteIndex} on:click={() => setCafeInputVal(cafe)} />
 						{/each}
 					</ul>
 				{/if}
 
-				<input type="submit" value="Add Rating">
+				<input type="submit" value="Lookup Cafe">
 			</form>
-			<input type="text" placeholder="Drink Name" bind:value={drink_name}>
 
 		</div>
 		<div id="rightcol">
