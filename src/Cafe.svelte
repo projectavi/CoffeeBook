@@ -4,6 +4,10 @@
     export let itemLabel;
     export let highlighted;
     import { useLocation } from "svelte-navigator";
+    import { data, uid } from "./store.ts";
+    import firebase from "firebase/compat/app";
+    import "firebase/compat/auth";
+    import "firebase/compat/firestore";
 
     const location = useLocation();
 
@@ -14,12 +18,19 @@
     let weightObj = cafeObj.weights;
     let drinkObjs = cafeObj.drinks;
 
+
+    let ratingObj = JSON.parse(JSON.stringify(weightObj));
+    for (let [param_rate, rating] of Object.entries(weightObj)) {
+        ratingObj[param_rate] = 0.0;
+    }
+
     let drinks = [];
     drinkObjs.forEach(drink => {
         drinks.push(drink.name);
     });
 
     let drink_name: string;
+    let drink_price: number;
 
     let filteredDrinks = [];
 
@@ -64,8 +75,38 @@
             // Check if the cafe exists and if it does not then make an entry for it
             let drinkObj = drinkObjs.find(obj => obj["name"] === drinkInputValue);
             if (drinkObj === undefined) {
-                drinkObj = {};
+                drinkObj = {name: drinkInputValue, rating: 0.0, ratingValues: JSON.parse(JSON.stringify(weightObj)), price: 0.0};
+                for (let [param_rate, rating] of Object.entries(weightObj)) {
+                    drinkObj.ratingValues[param_rate] = 0.0;
+                }
+                cafeObj.drinks.push(drinkObj);
             }
+            // Add the new rating to the drink object
+            let ratingSum = 0;
+            // console.log(ratingObj);
+            for (let [param_rate, rating] of Object.entries(ratingObj)) {
+                drinkObj.ratingValues[param_rate] = parseFloat(document.getElementById(param_rate).value);
+                ratingSum += drinkObj.ratingValues[param_rate] * weightObj[param_rate];
+            }
+            drink_price = parseFloat(document.getElementById("drink_price").value);
+            drinkObj.rating = ratingSum / (drink_price**2);
+            console.log(drinkObj.rating);
+            drinkObj.price = drink_price;
+            // Update the cafe rating
+            let cafeRatingSum = 0;
+            cafeObj.drinks.forEach(drink => {
+                cafeRatingSum += drink.rating;
+            });
+            cafeObj.rating = cafeRatingSum / cafeObj.drinks.length;
+            // Update the cafe object in the store
+            let cafeDataObj = $data.cafeTable.find(obj => obj["name"] === cafeName);
+            cafeDataObj.drinks = cafeObj.drinks;
+            cafeDataObj.rating = cafeObj.rating;
+            // Update firebase
+            const db = firebase.firestore();
+            console.log($data.cafeTable);
+            db.collection("users").doc($uid).delete();
+            db.collection("users").doc($uid).set($data);
         }
         else {
             alert("Please enter the required information");
@@ -99,16 +140,6 @@
             return;
         }
     }
-
-    let new_param = "";
-    let param_added = false;
-    const addParam = () => {
-        if (new_param) {
-            weightObj[new_param] = 0;
-            new_param = "";
-        }
-        param_added = !param_added;
-    }
 </script>
 
 <h1> {cafeName} </h1>
@@ -135,16 +166,16 @@
             </ul>
         {/if}
 
-        {#key param_added}
-            {#each Object.entries(weightObj) as [param, weight]}
-                <label for={param}>{param}</label>
-                <input type="number" id={param} name={param} min="0" max="10" step="0.1" value={weight}/>
-            {/each}
-        {/key}
-        <input type="text" id="new-param" name="new-param" placeholder="New Parameter" value={new_param}/>
-        <button on:click={addParam}> Add new Parameter </button>
+        <h3> Enter Rankings </h3>
+        {#each Object.entries(ratingObj) as [param_rate, rating]}
+            <label for={param_rate}>{param_rate}</label>
+            <input type="number" id={param_rate} name={param_rate} min="0" max="10" step="0.1" value=0.0 />
+        {/each}
 
-        <input type="submit" value="Lookup Cafe">
+        <label> Price (CAD without Tax) </label>
+        <input type="number" id="drink_price" name="drink_price" min="0" step="0.01" value=0.0 />
+
+        <input type="submit" value="Add Drink Rating">
     </form>
 </div>
 

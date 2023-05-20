@@ -5,27 +5,27 @@
     import 'firebase/compat/auth';
     import 'firebase/compat/firestore';
     import { onMount } from "svelte";
-    import { data } from "./store.ts";
+    import { data, uid } from "./store.ts";
 
     const navigate = useNavigate();
 
     const googleAuth = () => {
         console.log("Hey there"); // Route into BookCover.svelte after logging in
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then((result) => {
+        firebase.auth().signInWithPopup(provider).then(async (result) => {
             const user = result.user;
             if (user != null) {
                 console.log(user.displayName);
                 const db = firebase.firestore();
                 let userDocRef = db.collection("users").doc(user.uid);
-
-                userDocRef.get().then((doc) => {
+                let data_object = {};
+                await userDocRef.get().then((doc) => {
                     if (doc.exists) {
                         console.log("Document Data:", doc.data());
-                    }
-                    else {
+                        data_object = doc.data();
+                    } else {
                         console.log("New User or Missing Data!");
-                        db.collection("users").doc(user.uid).set({
+                        data_object = {
                             name: user.displayName,
                             email: user.email,
                             photoURL: user.photoURL,
@@ -33,16 +33,14 @@
                             cafeTable: [],
                             drinkTable: [],
                             public: true
-                        })
+                        };
+                        db.collection("users").doc(user.uid).set(data_object)
                         userDocRef = db.collection("users").doc(user.uid);
                     }
                 })
-
-                userDocRef.get().then((doc) => {
-                    // Write to store and route with data (or without if store) into BookCover
-                    data.set(doc.data());
-                    navigate("/book", {});
-                })
+                data.set(data_object);
+                uid.set(user.uid);
+                navigate("/book", {});
             }
         })
             .catch((error) => {

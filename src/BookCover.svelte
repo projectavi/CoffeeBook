@@ -8,7 +8,8 @@
 
 	const navigate = useNavigate();
 
-	// let cafeObjs = [{name: "Plearn", rating: 0.0, atmosphere: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
+	// let cafeObjs = [{name: "Plearn", rating: 0.0, drinks: [{name: "Test", ratingAttributes: ["Espresso"], ratingScores: [0.0], ratingWeights: [10]}]}];
+	console.log($data);
 	let cafeObjs = $data.cafeTable;
 	// This is temporary, grab from the document passed from login
 
@@ -63,7 +64,9 @@
 			// Check if the cafe exists and if it does not then make an entry for it
 			let cafeObj = cafeObjs.find(obj => obj["name"] === cafeInputValue);
 			if (cafeObj === undefined) {
-				cafeObj = {name: cafeInputValue, rating: 0.0, atmosphere: 0.0, drinks: [], weights: {}}
+				cafeObj = {name: cafeInputValue, rating: 0.0, drinks: [], weights: {"Espresso": 3.0, "Atmosphere": 1.0}};
+				// Write to the store
+				$data.cafeTable.push(cafeObj);
 			}
 		// Route to the page for the cafe
 			navigate('/cafe', {state: {cafe: cafeObj}})
