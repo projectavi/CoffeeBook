@@ -61,6 +61,12 @@
 
     const setDrinkInputVal = (drinkName) => {
         drinkInputValue = removeBold(drinkName);
+        let drink_object = drinkObjs.find(obj => obj["name"] === drinkInputValue);
+        console.log("HEloo");
+        for (let [param_rate, rating] of Object.entries(weightObj)) {
+            document.getElementById(param_rate).value = drink_object.ratingValues[param_rate];
+        }
+        document.getElementById("drink_price").value = drink_object.price;
         filteredDrinks = [];
         hiLiteIndex = null;
         document.querySelector('#drink-input');
