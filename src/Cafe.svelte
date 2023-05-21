@@ -97,7 +97,7 @@
             }
             drink_price = parseFloat(document.getElementById("drink_price").value);
             drinkObj.recommend = document.getElementById("recommend").checked;
-            drinkObj.rating = (ratingSum / (drink_price**2)).toFixed(2);
+            drinkObj.rating = parseFloat((ratingSum / (drink_price**2)).toFixed(2));
             console.log(drinkObj.rating);
             drinkObj.price = drink_price;
             // Update the cafe rating
@@ -106,6 +106,7 @@
                 cafeRatingSum += drink.rating;
             });
             cafeObj.rating = (cafeRatingSum / cafeObj.drinks.length).toFixed(2);
+            console.log(cafeObj.rating);
             // Update the cafe object in the store
             let cafeDataObj = $data.cafeTable.find(obj => obj["name"] === cafeName);
             cafeDataObj.drinks = cafeObj.drinks;
@@ -151,6 +152,12 @@
 </script>
 <main>
 <h1> {cafeName} </h1>
+    <div id="cafe-info">
+        <h3> Overall Score: {cafeObj.rating} </h3>
+        {#if cafeObj.recommend}
+            <h3> <b> Recommended </b> </h3>
+        {/if}
+</div>
 <body>
 <!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
 <div>
@@ -233,6 +240,13 @@
 
     body {
     /*    Set horizontal layout */
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    #cafe-info {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
