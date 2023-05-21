@@ -64,7 +64,7 @@
 			// Check if the cafe exists and if it does not then make an entry for it
 			let cafeObj = cafeObjs.find(obj => obj["name"] === cafeInputValue);
 			if (cafeObj === undefined) {
-				cafeObj = {name: cafeInputValue, rating: 0.0, drinks: [], weights: {"Espresso": 3.0, "Atmosphere": 1.0}};
+				cafeObj = {name: cafeInputValue, rating: 0.0, recommend: false, drinks: [], weights: {"Espresso": 3.0, "Atmosphere": 1.0}};
 				// Write to the store
 				$data.cafeTable.push(cafeObj);
 			}

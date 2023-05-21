@@ -67,6 +67,7 @@
             document.getElementById(param_rate).value = drink_object.ratingValues[param_rate];
         }
         document.getElementById("drink_price").value = drink_object.price;
+        document.getElementById("recommend").checked = drink_object.recommend;
         filteredDrinks = [];
         hiLiteIndex = null;
         document.querySelector('#drink-input');
@@ -81,7 +82,7 @@
             // Check if the cafe exists and if it does not then make an entry for it
             let drinkObj = drinkObjs.find(obj => obj["name"] === drinkInputValue);
             if (drinkObj === undefined) {
-                drinkObj = {name: drinkInputValue, rating: 0.0, ratingValues: JSON.parse(JSON.stringify(weightObj)), price: 0.0};
+                drinkObj = {name: drinkInputValue, rating: 0.0, ratingValues: JSON.parse(JSON.stringify(weightObj)), price: 0.0, recommend: false};
                 for (let [param_rate, rating] of Object.entries(weightObj)) {
                     drinkObj.ratingValues[param_rate] = 0.0;
                 }
@@ -95,6 +96,7 @@
                 ratingSum += drinkObj.ratingValues[param_rate] * weightObj[param_rate];
             }
             drink_price = parseFloat(document.getElementById("drink_price").value);
+            drinkObj.recommend = document.getElementById("recommend").checked;
             drinkObj.rating = ratingSum / (drink_price**2);
             console.log(drinkObj.rating);
             drinkObj.price = drink_price;
@@ -147,8 +149,9 @@
         }
     }
 </script>
-
+<main>
 <h1> {cafeName} </h1>
+<body>
 <!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
 <div>
     <h1> Add a Rating </h1>
@@ -181,12 +184,79 @@
         <label> Price (CAD without Tax) </label>
         <input type="number" id="drink_price" name="drink_price" min="0" step="0.01" value=0.0 />
 
+        <label> Recommend? </label>
+        <input type="checkbox" id="recommend" name="recommend" value="recommend?"/>
+
         <input type="submit" value="Add Drink Rating">
     </form>
 </div>
 
+<div>
+    <h1> Rating Table </h1>
 
+    <table id="table_items">
+        <tr>
+            <th> Drink Name </th>
+            {#each Object.entries(weightObj) as [param_rate, rating]}
+                <th> {param_rate} </th>
+            {/each}
+            <th> Price </th>
+            <th> Rating </th>
+            <th> Recommend? </th>
+        </tr>
+        {#each cafeObj.drinks as drink}
+            <tr>
+                <td> {drink.name} </td>
+                {#each Object.entries(drink.ratingValues) as [param_rate, rating]}
+                    <td> {rating} </td>
+                {/each}
+                <td> {drink.rating} </td>
+                <td> {drink.price} </td>
+                <td> {drink.recommend} </td>
+            </tr>
+        {/each}
+    </table>
+</div>
+</body>
+</main>
 <style>
+    main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    body {
+    /*    Set horizontal layout */
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    #table_items {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #table_items td, #table_items th {
+        padding: 8px;
+    }
+
+    #table_items tr:nth-child(even){background-color: #f2f2f2;}
+
+    #table_items tr:hover {background-color: #ddd;}
+
+    #table_items th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #04AA6D;
+        color: white;
+    }
+
     li.autocomplete-items {
         list-style: none;
         border-bottom: 1px solid #d4d4d4;
@@ -218,5 +288,3 @@
         color: #ffffff;
     }
 </style>
-
-<li class="autocomplete-items" class:autocomplete-active={highlighted} on:click>{@html itemLabel}</li>

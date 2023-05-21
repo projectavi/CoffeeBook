@@ -11,9 +11,6 @@
 </script>
 
 <Router>
-    <header>
-        <h1> CoffeeBook </h1>
-    </header>
 <main>
     <Route path="/" component={LoginComponent} />
     <Route path="book" component={BookCover} />
