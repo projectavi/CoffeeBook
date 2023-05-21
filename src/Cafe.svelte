@@ -153,9 +153,9 @@
 <main>
 <h1> {cafeName} </h1>
     <div id="cafe-info">
-        <h3> Overall Score: {cafeObj.rating} </h3>
+        <h3 class="tenmargin"> Overall Score: {cafeObj.rating} </h3>
         {#if cafeObj.recommend}
-            <h3> <b> Recommended </b> </h3>
+            <h3 class="tenmargin"> <b> Recommended </b> </h3>
         {/if}
 </div>
 <body>
@@ -251,6 +251,10 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+    }
+
+    .tenmargin {
+        margin: 10px;
     }
 
     #table_items {

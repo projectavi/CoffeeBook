@@ -51,6 +51,55 @@
 </script>
 
 <main>
-    <h2> Login to your CoffeeBook </h2>
-    <button on:click={googleAuth}> Signin with Google </button>
+    <h1 style="font-size: 50px;" class="login-title"> Coffee Book </h1>
+    <button on:click={googleAuth} class="login-title-btn login-btn"> <img src="https://cdn.pixabay.com/photo/2021/05/24/09/15/google-logo-6278331_1280.png" alt="Google Icon" width="20" height="20"> Signin with Google </button>
 </main>
+
+<style>
+    main {
+        background-image: url("https://unsplash.com/photos/z_DkoUqgx6M/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTh8fGJvb2tzaGVsZnxlbnwwfHx8fDE2ODQ2Nzc0MDR8Mg&force=true");
+        background-size: cover;
+        background-repeat: no-repeat;
+
+    /*    Fill Page*/
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .login-title {
+        padding-top: 15px;
+        padding-right: 7px;
+        font-size: 50px;
+        font-weight: 700;
+        margin-bottom: 20px;
+    }
+
+    .login-title-btn {
+        /*display: inline-block;*/
+        /*background-color: #fff;*/
+        /*color: #000;*/
+        padding-top: 10px;
+        border: 2px solid #000;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 14px;
+        /*text-decoration: none;*/
+        /*box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);*/
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+    }
+
+    .login-btn:hover {
+        background-color: #f8f8f8;
+    }
+
+    .login-btn img {
+        display: inline-block;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+</style>
