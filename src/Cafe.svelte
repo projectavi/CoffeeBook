@@ -97,7 +97,7 @@
             }
             drink_price = parseFloat(document.getElementById("drink_price").value);
             drinkObj.recommend = document.getElementById("recommend").checked;
-            drinkObj.rating = ratingSum / (drink_price**2);
+            drinkObj.rating = (ratingSum / (drink_price**2)).toFixed(2);
             console.log(drinkObj.rating);
             drinkObj.price = drink_price;
             // Update the cafe rating
@@ -105,7 +105,7 @@
             cafeObj.drinks.forEach(drink => {
                 cafeRatingSum += drink.rating;
             });
-            cafeObj.rating = cafeRatingSum / cafeObj.drinks.length;
+            cafeObj.rating = (cafeRatingSum / cafeObj.drinks.length).toFixed(2);
             // Update the cafe object in the store
             let cafeDataObj = $data.cafeTable.find(obj => obj["name"] === cafeName);
             cafeDataObj.drinks = cafeObj.drinks;
@@ -210,9 +210,13 @@
                 {#each Object.entries(drink.ratingValues) as [param_rate, rating]}
                     <td> {rating} </td>
                 {/each}
-                <td> {drink.rating} </td>
                 <td> {drink.price} </td>
-                <td> {drink.recommend} </td>
+                <td> {drink.rating} </td>
+                {#if drink.recommend}
+                    <td> Yes </td>
+                {:else}
+                    <td> No </td>
+                {/if}
             </tr>
         {/each}
     </table>
