@@ -6,6 +6,8 @@
     import 'firebase/compat/firestore';
     import { onMount } from "svelte";
     import { data, uid } from "./store.ts";
+    import { slide } from 'svelte/transition';
+    import RouteTransition from "./RouteTransition.svelte";
 
     const navigate = useNavigate();
 
@@ -50,11 +52,12 @@
     }
 </script>
 
+<RouteTransition>
 <main>
     <h1 style="font-size: 50px;" class="login-title"> Coffee Book </h1>
     <button on:click={googleAuth} class="login-title-btn login-btn"> <img src="https://cdn.pixabay.com/photo/2021/05/24/09/15/google-logo-6278331_1280.png" alt="Google Icon" width="20" height="20"> Signin with Google </button>
 </main>
-
+</RouteTransition>
 <style>
     main {
         background-image: url("https://unsplash.com/photos/z_DkoUqgx6M/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8MTh8fGJvb2tzaGVsZnxlbnwwfHx8fDE2ODQ2Nzc0MDR8Mg&force=true");

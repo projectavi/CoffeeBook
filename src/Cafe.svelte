@@ -1,5 +1,6 @@
 <script lang="ts">
     import ListItem from "./ListItem.svelte";
+    import RouteTransition from "./RouteTransition.svelte";
 
     export let itemLabel;
     export let highlighted;
@@ -150,6 +151,7 @@
         }
     }
 </script>
+<RouteTransition>
 <main>
 <h1> {cafeName} </h1>
     <div id="cafe-info">
@@ -230,6 +232,7 @@
 </div>
 </body>
 </main>
+</RouteTransition>
 <style>
     main {
         display: flex;

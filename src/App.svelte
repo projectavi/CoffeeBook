@@ -7,13 +7,16 @@
     import LoginComponent from "./LoginComponent.svelte";
     import BookCover from "./BookCover.svelte";
     import Cafe from "./Cafe.svelte";
-    import {data} from "./store";
+    import TransitionContainer from "./TransitionContainer.svelte";
+
 </script>
 
 <Router>
 <main>
-    <Route path="/" component={LoginComponent} />
-    <Route path="book" component={BookCover} />
-    <Route path="cafe" component={Cafe} />
+    <TransitionContainer>
+        <Route path="/" component={LoginComponent} />
+        <Route path="book" component={BookCover} />
+        <Route path="cafe" component={Cafe} />
+    </TransitionContainer>
 </main>
 </Router>

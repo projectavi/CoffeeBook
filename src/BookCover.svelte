@@ -4,6 +4,7 @@
 	import { focus } from './focus'
 	import { useNavigate } from 'svelte-navigator';
 	import ListItem from "./ListItem.svelte";
+	import RouteTransition from "./RouteTransition.svelte";
 	export let name: string;
 
 	const navigate = useNavigate();
@@ -104,7 +105,7 @@
 		}
 	}
 </script>
-
+<RouteTransition>
 <main>
 	<div id="main">
 		<div id="leftcol">
@@ -138,7 +139,7 @@
 		</div>
 	</div>
 </main>
-
+</RouteTransition>
 <style>
 
 	main {
