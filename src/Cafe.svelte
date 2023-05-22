@@ -380,7 +380,7 @@
         height: 50px;
         position: relative;
         border-radius: 5px;
-        background: linear-gradient(to right, #abbd73 35%, #d6e2ad 100%);
+        background: linear-gradient(to right, #333333 35%, #453333 100%);
         margin-bottom: 40px;
         padding: 15px 25px 0 40px;
         color: darkslategray;
@@ -405,7 +405,7 @@
     }
 
     .box:hover {
-        background: linear-gradient(to right, #abbd73 0%, #abbd73 100%);
+        background: linear-gradient(to right, #333333 0%, #333333 100%);
     }
 
     .shadow:hover::before {
