@@ -1,6 +1,7 @@
 
 <script>
-    import { fly } from "svelte/transition";
+    import { fly,fade, blur, slide, scale } from "svelte/transition";
+    import { quintOut } from 'svelte/easing';
 
     export let x = 200;
     export let duration = 500;
@@ -12,8 +13,7 @@
 
 <div
         class="route-wrapper"
-        in:fly={{ x: x * directionFactor, duration }}
-        out:fly={{ x: -x * directionFactor, duration }}
+        transition:scale={{ delay: 250, duration: 300, easing: quintOut }}
 >
     <slot />
 </div>

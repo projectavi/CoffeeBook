@@ -107,11 +107,13 @@
 </script>
 <RouteTransition>
 <main>
-	<div id="main">
+			<div class="main">
 		<div id="leftcol">
 			<h1> Search a Cafe </h1>
-<!-- Add a text input drop down-->
+			<!-- Add a text input drop down-->
+			<div class="main">
 			<form autocomplete="off" on:submit|preventDefault={submitValue}>
+				<div id="rightcol">
 				<div class="autocomplete">
 					<input id="cafe-input"
 						   type="text"
@@ -129,38 +131,46 @@
 						{/each}
 					</ul>
 				{/if}
+				</div>
 
-				<input type="submit" value="Lookup Cafe">
+<!--				<input type="submit" value="Lookup Cafe">-->
 			</form>
-
 		</div>
-		<div id="rightcol">
-			<h> Table of Values </h>
 		</div>
 	</div>
 </main>
 </RouteTransition>
 <style>
 
-	main {
+	h1 {
+		font-size: 60px;
+	}
 
-		/* Fill the screen */
-		margin: 0px;
-		padding: 0px;
-		min-height: 100%;
-		min-width: 100%;
-		height: 100%;
-		width: 100%;
-		background-color: #023047;
+	main {
+		background-image: url("https://unsplash.com/photos/jLwVAUtLOAQ/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8NHx8Ym9vayUyMG9uJTIwYSUyMGRlc2t8ZW58MHwwfHx8MTY4NDc1MzYzMnwy&force=true");
+		/*background-image: url("https://unsplash.com/photos/DJ7bWa-Gwks/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8NHx8Y29mZmVlJTIwb24lMjBkZXNrfGVufDB8fHx8MTY4NDcyNjc3NXwy&force=true");*/
+		background-size: cover;
+		background-repeat: no-repeat;
+
+		/*    Fill Page*/
+		height: 100vh;
+		width: 100vw;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		background-color: #ffffff;
 
 	}
 
-	#main {
+	.main {
 	/*	Align contents horizontally */
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
 		align-items: center;
+		width: 100vw;
 	}
 
 	#leftcol {
@@ -172,6 +182,8 @@
 		align-items: center;
 	/*	Add right padding */
 		padding-right: 10px;
+		width: 100vw;
+		margin-top: 10%;
 	}
 
 	#rightcol {
@@ -184,12 +196,12 @@
 		padding-left: 10px;
 	}
 
-	/*div.autocomplete {*/
-	/*	!*the container must be positioned relative:*!*/
-	/*	position: relative;*/
-	/*	display: inline-block;*/
-	/*	width: 300px;*/
-	/*}*/
+	div.autocomplete {
+		/*the container must be positioned relative:*/
+		position: relative;
+		display: inline-block;
+		width: 300px;
+	}
 	input {
 		border: 1px solid transparent;
 		background-color: #f1f1f1;
@@ -202,7 +214,8 @@
 		width: 100%;
 	}
 	input[type=submit] {
-		background-color: DodgerBlue;
+		background-color: #BFB08F;
+		border: 1px solid #000000;
 		color: #fff;
 	}
 
