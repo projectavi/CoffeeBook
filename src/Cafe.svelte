@@ -153,16 +153,18 @@
 </script>
 <RouteTransition>
 <main>
-<h1> {cafeName} </h1>
+    <div id="titlesection">
+<h1 style="text-align: center"> {cafeName} </h1>
     <div id="cafe-info">
         <h3 class="tenmargin"> Overall Score: {cafeObj.rating} </h3>
         {#if cafeObj.recommend}
             <h3 class="tenmargin"> <b> Recommended </b> </h3>
         {/if}
-</div>
+    </div>
+    </div>
 <body>
 <!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
-<div>
+<div id="new">
     <h1> Add a Rating </h1>
     <!-- Add a text input drop down-->
     <form autocomplete="off" on:submit|preventDefault={submitValue}>
@@ -200,7 +202,7 @@
     </form>
 </div>
 
-<div>
+<div id="table">
     <h1> Rating Table </h1>
 
     <table id="table_items">
@@ -233,12 +235,20 @@
 </body>
 </main>
 </RouteTransition>
-<style>
+<style lang="scss">
     main {
+        background-image: url("https://unsplash.com/photos/-FVaZbu6ZAE/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjg0NzU2ODU1fA&force=true");
+        background-size: cover;
+        background-repeat: no-repeat;
+
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
+
+        /*    Fill Page*/
+        height: 100vh;
+        width: 100vw;
     }
 
     body {
@@ -249,11 +259,26 @@
         align-items: center;
     }
 
+    #titlesection {
+        margin-top: 5vh;
+        color: #ffffff;
+    }
+
     #cafe-info {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+    }
+
+    #table {
+        padding-right: 33vh;
+        padding-bottom: 35vh;
+    }
+
+    #new {
+        padding-left: 60vh;
+        padding-bottom: 8vh;
     }
 
     .tenmargin {
@@ -312,4 +337,6 @@
         background-color: DodgerBlue !important;
         color: #ffffff;
     }
+
+
 </style>
