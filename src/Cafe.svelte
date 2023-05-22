@@ -162,14 +162,14 @@
         {/if}
     </div>
     </div>
-<body>
+<body class="notepad">
 <!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
 <div id="new">
-    <h1> Add a Rating </h1>
+    <h1> Rate a Drink </h1>
     <!-- Add a text input drop down-->
-    <form autocomplete="off" on:submit|preventDefault={submitValue}>
+<!--    <form autocomplete="off" on:submit|preventDefault={submitValue}>-->
         <div class="autocomplete">
-            <input id="drink-input"
+            <input style="width: 100%" id="drink-input"
                    type="text"
                    placeholder="Search Drinks"
                    bind:this={drinkSearchInput}
@@ -179,39 +179,38 @@
 
         <!-- Filtered List Of Cafes -->
         {#if filteredDrinks.length > 0}
-            <ul id="autocomplete-items-list">
+            <ul style="z-index: 1" id="autocomplete-items-list">
                 {#each filteredDrinks as drink, i}
                     <ListItem itemLabel={drink} highlighted={i === hiLiteIndex} on:click={() => setDrinkInputVal(drink)} />
                 {/each}
             </ul>
         {/if}
 
-        <h3> Enter Rankings </h3>
-        {#each Object.entries(ratingObj) as [param_rate, rating]}
-            <label for={param_rate}>{param_rate}</label>
-            <input type="number" id={param_rate} name={param_rate} min="0" max="10" step="0.1" value=0.0 />
-        {/each}
-
-        <label> Price (CAD without Tax) </label>
+        <div class="tag-body">
+            {#each Object.entries(ratingObj) as [param_rate, rating]}
+                <div class="box shadow">
+                    <div class="circle"> </div>
+                <label for={param_rate}>{param_rate}</label>
+                <input type="number" id={param_rate} name={param_rate} min="0" max="10" step="0.1" value=0.0 />
+                </div>
+            {/each}
+        <div class="box shadow">
+            <div class="circle"> </div>
+        <label> Price (CAD) </label>
         <input type="number" id="drink_price" name="drink_price" min="0" step="0.01" value=0.0 />
+        </div>
 
+        <div class="box shadow">
+            <div class="circle"> </div>
         <label> Recommend? </label>
         <input type="checkbox" id="recommend" name="recommend" value="recommend?"/>
+        </div>
+        </div>
 
-        <input type="submit" value="Add Drink Rating">
-    </form>
+<!--        <input type="submit" value="Add Drink Rating">-->
+    <button style="width: 100%" on:click={submitValue}> Add Drink Rating </button>
+<!--    </form>-->
 
-    <div class="tag-body">
-        <div class="box shadow">
-            <div class="circle"></div>
-        </div>
-        <div class="box shadow">
-            <div class="circle"></div>
-        </div>
-        <div class="box shadow">
-            <div class="circle"></div>
-        </div>
-    </div>
 </div>
 
 <div id="table">
@@ -249,7 +248,8 @@
 </RouteTransition>
 <style lang="scss">
     main {
-        background-image: url("https://unsplash.com/photos/-FVaZbu6ZAE/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjg0NzU2ODU1fA&force=true");
+        //background-image: url("https://unsplash.com/photos/-FVaZbu6ZAE/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjg0NzU2ODU1fA&force=true");
+        background-image: url("https://unsplash.com/photos/hD9nj1vvVgk/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8Y29mZmVlJTIwYW5kJTIwcGFwZXJ8ZW58MHx8fHwxNjg0NzgxMDc3fDA&force=true");
         background-size: cover;
         background-repeat: no-repeat;
 
@@ -261,6 +261,7 @@
         /*    Fill Page*/
         height: 100vh;
         width: 100vw;
+      z-index: -2;
     }
 
     body {
@@ -272,30 +273,31 @@
     }
 
     #titlesection {
-        margin-top: 5vh;
+
         color: #ffffff;
+      font-size: 200%;
+      margin-bottom: -5vh;
     }
 
     #cafe-info {
+      margin-top: -4vh;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+      color: #ffffff;
+      font-size: 50%;
     }
 
     #table {
-        padding-right: 33vh;
-        padding-bottom: 35vh;
-    }
-
-    #new {
-        padding-left: 60vh;
-        padding-bottom: 8vh;
+        padding-right: 15vh;
+        padding-bottom: 47vh;
     }
 
     .tenmargin {
         margin: 10px;
     }
+
 
     #table_items {
         font-family: Arial, Helvetica, sans-serif;
@@ -315,7 +317,7 @@
         padding-top: 12px;
         padding-bottom: 12px;
         text-align: left;
-        background-color: #04AA6D;
+        background-color: #333333;
         color: white;
     }
 
@@ -334,7 +336,7 @@
 
     li.autocomplete-items:hover {
         /*when hovering an item:*/
-        background-color: #81921f;
+        background-color: #453333;
         color: white;
     }
 
@@ -348,6 +350,14 @@
         /*when navigating through the items using the arrow keys:*/
         background-color: DodgerBlue !important;
         color: #ffffff;
+    }
+
+    input {
+      width: 10vh;
+    }
+
+    label {
+      padding-bottom: 3vh;
     }
 
     @import url('https://fonts.googleapis.com/css?family=PT+Mono');
@@ -370,22 +380,28 @@
         justify-content: center;
         flex-direction: column;
         width: 100%;
-        height: 100vh;
+        height: 100%;
     }
 
     .box {
-        width: 50%;
+        width: auto;
         min-width: 250px;
-        display: block;
+        display: flex;
         height: 50px;
         position: relative;
         border-radius: 5px;
         background: linear-gradient(to right, #333333 35%, #453333 100%);
         margin-bottom: 40px;
         padding: 15px 25px 0 40px;
-        color: darkslategray;
+        color: white;
+      font-weight: 500;
+      font-size: 100%;
         box-shadow: 1px 2px 1px -1px #777;
         transition: background 200ms ease-in-out;
+
+          flex-direction: row;
+          justify-content: space-around;
+          align-items: center;
     }
 
     .shadow {
@@ -423,5 +439,43 @@
         width: 20px;
         height: 20px;
         display: inline-block;
+    }
+
+    @import "../node_modules/compass-mixins/lib/compass";
+
+    $linespace: 30px;
+
+    .notepad {
+      //z-index:1;
+      position: relative;
+      width: 60%;
+      padding: 30px;
+      margin: 100px auto;
+      text-align: center;
+      background-color: #f6f6f6;
+      height: 70%;
+      @include background(linear-gradient(top, rgba(#F6F6F6, 0), #FCFCFC), linear-gradient(top, rgba(#F6F6F6, 1), rgba(#F6F6F6, 1) $linespace, #EAEAEA $linespace, #EAEAEA $linespace + 1px));
+
+      background-size: 80%, 80% $linespace + 1px;
+      box-shadow: 0 4px 4px rgba(0,0,0,0.2);
+    }
+
+    .notepad:before {
+      content: '';
+      height: 47px;
+      width: 100%;
+      position: absolute;
+      top: -45px;
+      left: 0;
+      background: url('https://i.ibb.co/b7g0Ygy/Paper-BG-removed2.png') repeat-x;
+      background-size: 400px auto;
+      //box-shadow: 0 10px 4px rgba(black, 0.2);
+      //z-index: -1;
+    }
+
+    h3 {
+      font-size: 2em;
+      font-family: Helvetica;
+      color: #ffffff;
     }
 </style>
