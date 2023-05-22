@@ -12,7 +12,7 @@
     const navigate = useNavigate();
 
     const googleAuth = () => {
-        console.log("Hey there"); // Route into BookCover.svelte after logging in
+        // console.log("Hey there"); // Route into BookCover.svelte after logging in
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithPopup(provider).then(async (result) => {
             const user = result.user;
@@ -23,10 +23,10 @@
                 let data_object = {};
                 await userDocRef.get().then((doc) => {
                     if (doc.exists) {
-                        console.log("Document Data:", doc.data());
+                        // console.log("Document Data:", doc.data());
                         data_object = doc.data();
                     } else {
-                        console.log("New User or Missing Data!");
+                        // console.log("New User or Missing Data!");
                         data_object = {
                             name: user.displayName,
                             email: user.email,
@@ -48,14 +48,18 @@
             .catch((error) => {
                 console.log(error);
             })
-        console.log("oauth");
+        // console.log("oauth");
     }
 </script>
 
 <RouteTransition>
 <main>
-    <h1 style="font-size: 50px;" class="login-title"> Coffee Book </h1>
-    <button on:click={googleAuth} class="login-title-btn login-btn"> <img src="https://cdn.pixabay.com/photo/2021/05/24/09/15/google-logo-6278331_1280.png" alt="Google Icon" width="20" height="20"> Signin with Google </button>
+    <div id="title">
+        <h1 style="font-size: 800%;" class="login-title"> Coffee Book </h1>
+        <div id="button">
+        <button on:click={googleAuth} class="login-title-btn login-btn"> <img src="https://cdn.pixabay.com/photo/2021/05/24/09/15/google-logo-6278331_1280.png" alt="Google Icon" width="20" height="20"> Signin with Google </button>
+        </div>
+    </div>
 </main>
 </RouteTransition>
 <style>
@@ -73,20 +77,36 @@
         align-items: center;
     }
 
+    #title {
+        /*width: 17%;*/
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 20vh;
+    }
+
+    #button {
+        justify-content: center;
+        align-items: center;
+        padding-top: 36vh;
+    }
+
     .login-title {
-        padding-top: 15px;
+        margin-top: 0px;
+        padding-top: 0px;
         padding-right: 7px;
-        font-size: 50px;
+        font-size: 30px;
         font-weight: 700;
         margin-bottom: 20px;
+        color: #ffffff;
     }
 
     .login-title-btn {
         /*display: inline-block;*/
-        /*background-color: #fff;*/
-        /*color: #000;*/
-        padding-top: 10px;
-        border: 2px solid #000;
+        background-color: #333333;
+        color: #ffffff;
+        border: 2px solid #333333;
         padding: 10px 20px;
         border-radius: 4px;
         font-size: 14px;
@@ -97,7 +117,7 @@
     }
 
     .login-btn:hover {
-        background-color: #f8f8f8;
+        background-color: #453333;
     }
 
     .login-btn img {
