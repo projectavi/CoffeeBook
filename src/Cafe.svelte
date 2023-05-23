@@ -4,7 +4,7 @@
 
     export let itemLabel;
     export let highlighted;
-    import { useLocation } from "svelte-navigator";
+    import {navigate, useLocation} from "svelte-navigator";
     import { data, uid } from "./store.ts";
     import firebase from "firebase/compat/app";
     import "firebase/compat/auth";
@@ -13,6 +13,8 @@
     const location = useLocation();
 
     let cafeObj = $location.state.cafe;
+
+    console.log(cafeObj.recommend);
 
     let cafeName = cafeObj.name;
 
@@ -98,7 +100,7 @@
             }
             drink_price = parseFloat(document.getElementById("drink_price").value);
             drinkObj.recommend = document.getElementById("recommend").checked;
-            drinkObj.rating = parseFloat((ratingSum / (drink_price**2)).toFixed(2));
+            drinkObj.rating = parseFloat((ratingSum / ( Math.abs(cafeObj.priceWeight) * (drink_price**2))).toFixed(2));
             console.log(drinkObj.rating);
             drinkObj.price = drink_price;
             // Update the cafe rating
@@ -150,6 +152,10 @@
             return;
         }
     }
+
+    const edit_preferences = () =>  {
+        navigate("/preferences", {state: {cafe: cafeObj}});
+    }
 </script>
 <RouteTransition>
 <main>
@@ -160,6 +166,7 @@
         {#if cafeObj.recommend}
             <h3 class="tenmargin"> <b> Recommended </b> </h3>
         {/if}
+        <img width="24" height="24" src="https://img.icons8.com/material-two-tone/24/settings.png" alt="settings" on:click={edit_preferences} />
     </div>
     </div>
 <body class="notepad">
@@ -292,7 +299,18 @@
     #table {
         padding-right: 15vh;
         padding-bottom: 47vh;
+      overflow: hidden;
+      overflow-y:auto;
+      overflow-x:auto;
+      max-height: 100%;
     }
+
+    #new {
+      max-height: 100%;
+      overflow: hidden;
+      overflow-y:auto;
+    }
+
 
     .tenmargin {
         margin: 10px;
