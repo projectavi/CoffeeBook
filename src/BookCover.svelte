@@ -57,7 +57,7 @@
 	}
 
 	const submitValue = () => {
-		if (cafeInputValue) {
+		if (cafeInputValue && cafeInputValue != "") {
 			console.log("Submitted: " + cafeInputValue);
 			setTimeout(() => {
 				clearCafeInput();

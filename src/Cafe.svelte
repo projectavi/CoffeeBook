@@ -158,107 +158,218 @@
     }
 </script>
 <RouteTransition>
-<main>
-    <div id="titlesection">
-<h1 style="text-align: center"> {cafeName} </h1>
-    <div id="cafe-info">
-        <h3 class="tenmargin"> Overall Score: {cafeObj.rating} </h3>
-        {#if cafeObj.recommend}
-            <h3 class="tenmargin"> <b> Recommended </b> </h3>
-        {/if}
-        <img width="24" height="24" src="https://img.icons8.com/material-two-tone/24/settings.png" alt="settings" on:click={edit_preferences} />
-    </div>
-    </div>
-<body class="notepad">
-<!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
-<div id="new">
-    <h1> Rate a Drink </h1>
-    <!-- Add a text input drop down-->
-<!--    <form autocomplete="off" on:submit|preventDefault={submitValue}>-->
-        <div class="autocomplete">
-            <input style="width: 100%" id="drink-input"
-                   type="text"
-                   placeholder="Search Drinks"
-                   bind:this={drinkSearchInput}
-                   bind:value={drinkInputValue}
-                   on:input={filterDrinks}>
-        </div>
+<!--<main>-->
+<!--    <div id="titlesection">-->
+<!--<h1 style="text-align: center"> {cafeName} </h1>-->
+<!--    <div id="cafe-info">-->
+<!--        <h3 class="tenmargin"> Overall Score: {cafeObj.rating} </h3>-->
+<!--        {#if cafeObj.recommend}-->
+<!--            <h3 class="tenmargin"> <b> Recommended </b> </h3>-->
+<!--        {/if}-->
+<!--        <img width="24" height="24" src="https://img.icons8.com/material-two-tone/24/settings.png" alt="settings" on:click={edit_preferences} />-->
+<!--    </div>-->
+<!--    </div>-->
+<!--<body class="notepad">-->
+<!--&lt;!&ndash;Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification&ndash;&gt;-->
+<!--<div id="new">-->
+<!--    <h1> Rate a Drink </h1>-->
+<!--    &lt;!&ndash; Add a text input drop down&ndash;&gt;-->
+<!--&lt;!&ndash;    <form autocomplete="off" on:submit|preventDefault={submitValue}>&ndash;&gt;-->
+<!--        <div class="autocomplete">-->
+<!--            <input style="width: 100%" id="drink-input"-->
+<!--                   type="text"-->
+<!--                   placeholder="Search Drinks"-->
+<!--                   bind:this={drinkSearchInput}-->
+<!--                   bind:value={drinkInputValue}-->
+<!--                   on:input={filterDrinks}>-->
+<!--        </div>-->
 
-        <!-- Filtered List Of Cafes -->
-        {#if filteredDrinks.length > 0}
-            <ul style="z-index: 1" id="autocomplete-items-list">
-                {#each filteredDrinks as drink, i}
-                    <ListItem itemLabel={drink} highlighted={i === hiLiteIndex} on:click={() => setDrinkInputVal(drink)} />
-                {/each}
-            </ul>
-        {/if}
+<!--        &lt;!&ndash; Filtered List Of Cafes &ndash;&gt;-->
+<!--        {#if filteredDrinks.length > 0}-->
+<!--            <ul style="z-index: 1" id="autocomplete-items-list">-->
+<!--                {#each filteredDrinks as drink, i}-->
+<!--                    <ListItem itemLabel={drink} highlighted={i === hiLiteIndex} on:click={() => setDrinkInputVal(drink)} />-->
+<!--                {/each}-->
+<!--            </ul>-->
+<!--        {/if}-->
 
-        <div class="tag-body">
-            {#each Object.entries(ratingObj) as [param_rate, rating]}
-                <div class="box shadow">
-                    <div class="circle"> </div>
-                <label for={param_rate}>{param_rate}</label>
-                <input type="number" id={param_rate} name={param_rate} min="0" max="10" step="0.1" value=0.0 />
-                </div>
-            {/each}
-        <div class="box shadow">
-            <div class="circle"> </div>
-        <label> Price (CAD) </label>
-        <input type="number" id="drink_price" name="drink_price" min="0" step="0.01" value=0.0 />
-        </div>
+<!--        <div class="tag-body">-->
+<!--            {#each Object.entries(ratingObj) as [param_rate, rating]}-->
+<!--                <div class="box shadow">-->
+<!--                    <div class="circle"> </div>-->
+<!--                <label for={param_rate}>{param_rate}</label>-->
+<!--                <input type="number" id={param_rate} name={param_rate} min="0" max="10" step="0.1" value=0.0 />-->
+<!--                </div>-->
+<!--            {/each}-->
+<!--        <div class="box shadow">-->
+<!--            <div class="circle"> </div>-->
+<!--        <label> Price (CAD) </label>-->
+<!--        <input type="number" id="drink_price" name="drink_price" min="0" step="0.01" value=0.0 />-->
+<!--        </div>-->
 
-        <div class="box shadow">
-            <div class="circle"> </div>
-        <label> Recommend? </label>
-        <input type="checkbox" id="recommend" name="recommend" value="recommend?"/>
-        </div>
-        </div>
+<!--        <div class="box shadow">-->
+<!--            <div class="circle"> </div>-->
+<!--        <label> Recommend? </label>-->
+<!--        <input type="checkbox" id="recommend" name="recommend" value="recommend?"/>-->
+<!--        </div>-->
+<!--        </div>-->
 
-<!--        <input type="submit" value="Add Drink Rating">-->
-    <button style="width: 100%" on:click={submitValue}> Add Drink Rating </button>
-<!--    </form>-->
+<!--&lt;!&ndash;        <input type="submit" value="Add Drink Rating">&ndash;&gt;-->
+<!--    <button style="width: 100%" on:click={submitValue}> Add Drink Rating </button>-->
+<!--&lt;!&ndash;    </form>&ndash;&gt;-->
 
-</div>
+<!--</div>-->
 
-<div id="table">
-    <h1> Rating Table </h1>
+<!--<div id="table">-->
+<!--    <h1> Rating Table </h1>-->
 
-    <table id="table_items">
-        <tr>
-            <th> Drink Name </th>
-            {#each Object.entries(weightObj) as [param_rate, rating]}
-                <th> {param_rate} </th>
-            {/each}
-            <th> Price </th>
-            <th> Rating </th>
-            <th> Recommend? </th>
-        </tr>
-        {#each cafeObj.drinks as drink}
-            <tr>
-                <td> {drink.name} </td>
-                {#each Object.entries(drink.ratingValues) as [param_rate, rating]}
-                    <td> {rating} </td>
-                {/each}
-                <td> {drink.price} </td>
-                <td> {drink.rating} </td>
-                {#if drink.recommend}
-                    <td> Yes </td>
-                {:else}
-                    <td> No </td>
+<!--    <table id="table_items">-->
+<!--        <tr>-->
+<!--            <th> Drink Name </th>-->
+<!--            {#each Object.entries(weightObj) as [param_rate, rating]}-->
+<!--                <th> {param_rate} </th>-->
+<!--            {/each}-->
+<!--            <th> Price </th>-->
+<!--            <th> Rating </th>-->
+<!--            <th> Recommend? </th>-->
+<!--        </tr>-->
+<!--        {#each cafeObj.drinks as drink}-->
+<!--            <tr>-->
+<!--                <td> {drink.name} </td>-->
+<!--                {#each Object.entries(drink.ratingValues) as [param_rate, rating]}-->
+<!--                    <td> {rating} </td>-->
+<!--                {/each}-->
+<!--                <td> {drink.price} </td>-->
+<!--                <td> {drink.rating} </td>-->
+<!--                {#if drink.recommend}-->
+<!--                    <td> Yes </td>-->
+<!--                {:else}-->
+<!--                    <td> No </td>-->
+<!--                {/if}-->
+<!--            </tr>-->
+<!--        {/each}-->
+<!--    </table>-->
+<!--</div>-->
+<!--</body>-->
+<!--</main>-->
+
+    <main>
+        <div id="titlesection">
+            <h1 style="text-align: center"> {cafeName} </h1>
+            <div id="cafe-info">
+                <h3 class="tenmargin"> Overall Score: {cafeObj.rating} </h3>
+                {#if cafeObj.recommend}
+                    <h3 class="tenmargin"> <b> Recommended </b> </h3>
                 {/if}
-            </tr>
-        {/each}
-    </table>
-</div>
-</body>
-</main>
+                <img width="72" height="72" src="https://img.icons8.com/clouds/100/apple-settings--v2.png" alt="settings" on:click={edit_preferences} />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <!--Autocomplete for the drink, if a second rating is added for the same drink then load in the information for modification-->
+                <div class="col col-items">
+                    <h1 class="col-items"> Rate a Drink </h1>
+                    <!-- Add a text input drop down-->
+                    <!--    <form autocomplete="off" on:submit|preventDefault={submitValue}>-->
+                    <div class="autocomplete col-items" style="width: 100%">
+                        <input style="width: 100%" id="drink-input"
+                               type="text"
+                               placeholder="Search Drinks"
+                               bind:this={drinkSearchInput}
+                               bind:value={drinkInputValue}
+                               on:input={filterDrinks}>
+                    </div>
+
+                    <!-- Filtered List Of Cafes -->
+                    {#if filteredDrinks.length > 0}
+                        <ul style="z-index: 1; color: black;" id="autocomplete-items-list">
+                            {#each filteredDrinks as drink, i}
+                                <ListItem style="color: #000000" itemLabel={drink} highlighted={i === hiLiteIndex} on:click={() => setDrinkInputVal(drink)} />
+                            {/each}
+                        </ul>
+                    {/if}
+
+                    <div class="tag-body col-items scroll">
+                        {#each Object.entries(ratingObj) as [param_rate, rating]}
+                            <div class="box shadow">
+                                <div class="circle"> </div>
+                                <label for={param_rate}>{param_rate}</label>
+                                <input type="number" id={param_rate} name={param_rate} min="0" max="10" step="0.1" value=0.0 />
+                            </div>
+                        {/each}
+                        <div class="box shadow col-items">
+                            <div class="circle"> </div>
+                            <label> Price (CAD) </label>
+                            <input type="number" id="drink_price" name="drink_price" min="0" step="0.01" value=0.0 />
+                        </div>
+
+                        <div class="box shadow col-items">
+                            <div class="circle"> </div>
+                            <label> Recommend? </label>
+                            <input type="checkbox" id="recommend" name="recommend" value="recommend?"/>
+                        </div>
+                    </div>
+
+                    <!--        <input type="submit" value="Add Drink Rating">-->
+<!--                    <button class="col-items" style="width: 100%" on:click={submitValue}> Add Drink Rating </button>-->
+                    <!--    </form>-->
+
+                    <div class="container" style="width: 100%" on:click={submitValue}>
+
+                        <a href="#" class="button">
+                            <div class="button__line"></div>
+                            <div class="button__line"></div>
+                            <span class="button__text"> Add Drink Rating </span>
+                            <div class="button__drow1"></div>
+                            <div class="button__drow2"></div>
+                        </a>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col">
+                <div class="col col-items">
+                    <h1> Rating Table </h1>
+
+                    <table id="table_items">
+                        <tr>
+                            <th> Drink Name </th>
+                            {#each Object.entries(weightObj) as [param_rate, rating]}
+                                <th> {param_rate} </th>
+                            {/each}
+                            <th> Price </th>
+                            <th> Rating </th>
+                            <th> Recommend? </th>
+                        </tr>
+                        {#each cafeObj.drinks as drink}
+                            <tr style="color: black">
+                                <td> {drink.name} </td>
+                                {#each Object.entries(drink.ratingValues) as [param_rate, rating]}
+                                    <td> {rating} </td>
+                                {/each}
+                                <td> {drink.price} </td>
+                                <td> {drink.rating} </td>
+                                {#if drink.recommend}
+                                    <td> Yes </td>
+                                {:else}
+                                    <td> No </td>
+                                {/if}
+                            </tr>
+                        {/each}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
 </RouteTransition>
 <style lang="scss">
     main {
         //background-image: url("https://unsplash.com/photos/-FVaZbu6ZAE/download?ixid=M3wxMjA3fDB8MXxhbGx8fHx8fHx8fHwxNjg0NzU2ODU1fA&force=true");
-        background-image: url("https://unsplash.com/photos/hD9nj1vvVgk/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8Y29mZmVlJTIwYW5kJTIwcGFwZXJ8ZW58MHx8fHwxNjg0NzgxMDc3fDA&force=true");
-        background-size: cover;
-        background-repeat: no-repeat;
+        //background-image: url("https://unsplash.com/photos/hD9nj1vvVgk/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8Y29mZmVlJTIwYW5kJTIwcGFwZXJ8ZW58MHx8fHwxNjg0NzgxMDc3fDA&force=true");
+        background-image: url("https://unsplash.com/photos/1Bg9Wlq3wXk/download?ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8d29vZGVuJTIwZGVza3xlbnwwfHx8fDE2ODUxOTAyNDR8MA&force=true");
+        background-size: contain;
+        //background-repeat: no-repeat;
 
         display: flex;
         flex-direction: column;
@@ -271,12 +382,43 @@
       z-index: -2;
     }
 
+    tr {
+      background-color: #8c6666;
+    }
+
     body {
     /*    Set horizontal layout */
         display: flex;
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
+    }
+
+    .scroll {
+      overflow-y: hidden;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: baseline;
+      color: #ffffff;
+      height: 90%;
+      width: 100%;
+    }
+
+    .col {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+      color: #ffffff;
+    }
+
+    .col-items {
+      display: flex;
+      justify-content: center;
     }
 
     #titlesection {
@@ -405,11 +547,11 @@
         width: auto;
         min-width: 250px;
         display: flex;
-        height: 50px;
+        height: 40px;
         position: relative;
         border-radius: 5px;
         background: linear-gradient(to right, #333333 35%, #453333 100%);
-        margin-bottom: 40px;
+        margin-bottom: 10px;
         padding: 15px 25px 0 40px;
         color: white;
       font-weight: 500;
@@ -495,5 +637,219 @@
       font-size: 2em;
       font-family: Helvetica;
       color: #ffffff;
+    }
+
+    .button{
+      position : relative ;
+      z-index : 0 ;
+      width : 240px ;
+      height : 56px ;
+      text-decoration : none ;
+      font-size : 14px ;
+      font-weight : bold ;
+      color : #ffffff ;
+      letter-spacing : 2px ;
+      transition : all .3s ease ;
+    }
+    .button__text{
+      display : flex ;
+      justify-content : center ;
+      align-items : center ;
+      width : 100% ;
+      height : 100% ;
+    }
+    .button::before,
+    .button::after,
+    .button__text::before,
+    .button__text::after{
+      content : '' ;
+      position : absolute ;
+      height : 3px ;
+      border-radius : 2px ;
+      background : #ffffff ;
+      transition : all .5s ease ;
+    }
+    .button::before{
+      top : 0 ;
+      left : 54px ;
+      width : calc( 100% - 56px * 2 - 16px ) ;
+    }
+    .button::after{
+      top : 0 ;
+      right : 54px ;
+      width : 8px ;
+    }
+    .button__text::before{
+      bottom : 0 ;
+      right : 54px ;
+      width : calc( 100% - 56px * 2 - 16px ) ;
+    }
+    .button__text::after{
+      bottom : 0 ;
+      left : 54px ;
+      width : 8px ;
+    }
+    .button__line{
+      position : absolute ;
+      top : 0 ;
+      width : 56px ;
+      height : 100% ;
+      overflow : hidden ;
+    }
+    .button__line::before{
+      content : '' ;
+      position : absolute ;
+      top : 0 ;
+      width : 150% ;
+      height : 100% ;
+      box-sizing : border-box ;
+      border-radius : 300px ;
+      border : solid 3px #ffffff ;
+    }
+    .button__line:nth-child(1),
+    .button__line:nth-child(1)::before{
+      left : 0 ;
+    }
+    .button__line:nth-child(2),
+    .button__line:nth-child(2)::before{
+      right : 0 ;
+    }
+    .button:hover{
+      letter-spacing : 6px ;
+    }
+    .button:hover::before,
+    .button:hover .button__text::before{
+      width : 8px ;
+    }
+    .button:hover::after,
+    .button:hover .button__text::after{
+      width : calc( 100% - 56px * 2 - 16px ) ;
+    }
+    .button__drow1,
+    .button__drow2{
+      position : absolute ;
+      z-index : -1 ;
+      border-radius : 16px ;
+      transform-origin : 16px 16px ;
+    }
+    .button__drow1{
+      top : -16px ;
+      left : 40px ;
+      width : 32px ;
+      height : 0;
+      transform : rotate( 30deg ) ;
+    }
+    .button__drow2{
+      top : 44px ;
+      left : 77px ;
+      width : 32px ;
+      height : 0 ;
+      transform : rotate(-127deg ) ;
+    }
+    .button__drow1::before,
+    .button__drow1::after,
+    .button__drow2::before,
+    .button__drow2::after{
+      content : '' ;
+      position : absolute ;
+    }
+    .button__drow1::before{
+      bottom : 0 ;
+      left : 0 ;
+      width : 0 ;
+      height : 32px ;
+      border-radius : 16px ;
+      transform-origin : 16px 16px ;
+      transform : rotate( -60deg ) ;
+    }
+    .button__drow1::after{
+      top : -10px ;
+      left : 45px ;
+      width : 0 ;
+      height : 32px ;
+      border-radius : 16px ;
+      transform-origin : 16px 16px ;
+      transform : rotate( 69deg ) ;
+    }
+    .button__drow2::before{
+      bottom : 0 ;
+      left : 0 ;
+      width : 0 ;
+      height : 32px ;
+      border-radius : 16px ;
+      transform-origin : 16px 16px ;
+      transform : rotate( -146deg ) ;
+    }
+    .button__drow2::after{
+      bottom : 26px ;
+      left : -40px ;
+      width : 0 ;
+      height : 32px ;
+      border-radius : 16px ;
+      transform-origin : 16px 16px ;
+      transform : rotate( -262deg ) ;
+    }
+    .button__drow1,
+    .button__drow1::before,
+    .button__drow1::after,
+    .button__drow2,
+    .button__drow2::before,
+    .button__drow2::after{
+      background : var( --back_color ) ;
+    }
+    .button:hover .button__drow1{
+      animation : drow1 ease-in .06s ;
+      animation-fill-mode : forwards ;
+    }
+    .button:hover .button__drow1::before{
+      animation : drow2 linear .08s .06s ;
+      animation-fill-mode : forwards ;
+    }
+    .button:hover .button__drow1::after{
+      animation : drow3 linear .03s .14s ;
+      animation-fill-mode : forwards ;
+    }
+    .button:hover .button__drow2{
+      animation : drow4 linear .06s .2s ;
+      animation-fill-mode : forwards ;
+    }
+    .button:hover .button__drow2::before{
+      animation : drow3 linear .03s .26s ;
+      animation-fill-mode : forwards ;
+    }
+    .button:hover .button__drow2::after{
+      animation : drow5 linear .06s .32s ;
+      animation-fill-mode : forwards ;
+    }
+    @keyframes drow1{
+      0%   { height : 0 ; }
+      100% { height : 100px ; }
+    }
+    @keyframes drow2{
+      0%   { width : 0 ; opacity : 0 ;}
+      10%  { opacity : 0 ;}
+      11%  { opacity : 1 ;}
+      100% { width : 120px ; }
+    }
+    @keyframes drow3{
+      0%   { width : 0 ; }
+      100% { width : 80px ; }
+    }
+    @keyframes drow4{
+      0%   { height : 0 ; }
+      100% { height : 120px ; }
+    }
+    @keyframes drow5{
+      0%   { width : 0 ; }
+      100% { width : 124px ; }
+    }
+
+    .container{
+      width : 100% ;
+      height : 75px ;
+      display : flex ;
+      flex-direction : column ;
+      justify-content : center ;
+      align-items : center ;
     }
 </style>

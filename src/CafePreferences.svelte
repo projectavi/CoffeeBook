@@ -130,7 +130,7 @@
 
     color: #ffffff;
     font-size: 200%;
-    margin-bottom: -5vh;
+    //margin-bottom: -5vh;
   }
 
   #cafe-info {
@@ -178,7 +178,7 @@
         column-gap: 5%;
         //row-gap: 10%;
       margin: auto;
-      margin-top: 10vh;
+      //margin-top: 10vh;
       max-height: 60%;
       overflow-y:auto;
       justify-items: center;
@@ -211,11 +211,11 @@
       width: 20%;
       min-width: 100px;
       display: flex;
-      height: 50px;
+      height: 40px;
       position: relative;
       border-radius: 5px;
       background: linear-gradient(to right, #333333 35%, #453333 100%);
-      margin-bottom: 40px;
+      margin-bottom: 10px;
       padding: 15px 25px 0 40px;
       color: white;
       font-weight: 500;
@@ -289,7 +289,7 @@
         text-decoration : none ;
         font-size : 14px ;
         font-weight : bold ;
-        color : var(--line_color) ;
+        color : #ffffff ;
         letter-spacing : 2px ;
         transition : all .3s ease ;
     }
@@ -308,7 +308,7 @@
         position : absolute ;
         height : 3px ;
         border-radius : 2px ;
-        background : var(--line_color) ;
+        background : #ffffff ;
         transition : all .5s ease ;
     }
     .button::before{
@@ -346,7 +346,7 @@
         height : 100% ;
         box-sizing : border-box ;
         border-radius : 300px ;
-        border : solid 3px var(--line_color) ;
+        border : solid 3px #ffffff ;
     }
     .button__line:nth-child(1),
     .button__line:nth-child(1)::before{
