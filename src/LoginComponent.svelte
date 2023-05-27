@@ -50,6 +50,11 @@
             })
         // console.log("oauth");
     }
+
+    const load_global_view = () => {
+        console.log("Temp");
+        // navigate("/global", {});
+    }
 </script>
 
 <RouteTransition>
@@ -58,6 +63,7 @@
         <h1 style="font-size: 800%;" class="login-title"> Coffee Book </h1>
         <div id="button">
         <button on:click={googleAuth} class="login-title-btn login-btn"> <img src="https://cdn.pixabay.com/photo/2021/05/24/09/15/google-logo-6278331_1280.png" alt="Google Icon" width="20" height="20"> Signin with Google </button>
+        <button on:click={load_global_view} class="login-title-btn login-btn" style="background-color: cornflowerblue"> <img src="https://img.icons8.com/cotton/64/globe--v1.png" alt="Globe Icon" width="20" height="20"> Global View </button>
         </div>
     </div>
 </main>
