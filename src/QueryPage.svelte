@@ -6,6 +6,45 @@
 
     let query = $location.state;
 
+    let colthree = "Price";
+
+    if (query.type === "Cafe") {
+        colthree= "Average Price";
+    }
+
+    let raw_data = query.data;
+
+    let table_data = [];
+    let pricepoint;
+
+    if (query.level === "User") {
+        raw_data.forEach((obj) => {
+            let temp = {};
+            temp.name = obj.name;
+            temp.rating = obj.rating;
+            if (query.type === "Drink") {
+                temp.pricepoint = obj.price;
+            }
+            else {
+                pricepoint = 0;
+                obj.drinks.forEach((drink) => {
+                    pricepoint += drink.price;
+                })
+                pricepoint = pricepoint / obj.drinks.length;
+                temp.pricepoint = pricepoint.toFixed(2);
+            }
+
+            if (obj.recommend === true) {
+                temp.recommended_text = "Yes";
+            }
+            else {
+                temp.recommended_text = "No";
+            }
+            temp.comment = ""; // This is for the comment/description field which I haven't implemented yet
+            table_data.push(temp);
+        });
+    }
+
 </script>
 <RouteTransition>
 <main id="main">
@@ -17,28 +56,28 @@
         <!-- Row title -->
         <main class="row title">
             <ul>
-                <li>Sport</li>
-                <li>Entry $</li>
-                <li><span class="title-hide">#</span> Entries</li>
-                <li>Max</li>
-                <li>Time</li>
+                <li>{query.type}</li>
+                <li>Rating</li>
+                <li>{colthree}</li>
+                <li>Recommended</li>
             </ul>
         </main>
         <!-- Row 1 - fadeIn -->
+        {#each table_data as item}
         <section class="row-fadeIn-wrapper">
             <article class="row fadeIn nfl">
                 <ul>
-                    <li><a href="#">NFL</a><span class="small">(fadeIn)</span></li>
-                    <li>$50</li>
-                    <li>12</li>
-                    <li>48</li>
-                    <li>2:00ET</li>
+                    <li><a href="#"> {item.name} </a><span class="small"></span></li>
+                    <li> {item.rating} </li>
+                    <li> {item.pricepoint} </li>
+                    <li> {item.recommended_text} </li>
                 </ul>
                 <ul class="more-content">
-                    <li>This 1665-player contest boasts a $300,000.00 prize pool and pays out the top 300 finishing positions. First place wins $100,000.00. Good luck!</li>
+                    <li> {item.comment} </li>
                 </ul>
             </article>
         </section>
+        {/each}
     </section>
     </body>
 </main>
@@ -116,8 +155,8 @@
       width:100%;
       height: 100%;
       border-radius: 25px;
-      max-width:1000px;
-      margin:20px auto 100px auto;
+      //max-width:1000px;
+      //margin:20px auto 100px auto;
       padding:0;
       background:$light-bg;
       color:$text;
