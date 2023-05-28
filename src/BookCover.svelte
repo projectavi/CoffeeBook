@@ -105,7 +105,7 @@
 		}
 	}
 	let load_user_cafe_ranking = () => {
-		navigate('/query', {state: {type: "Cafe", level: "User"}});
+		navigate('/query', {state: {type: "Cafe", level: "User", data: cafeObjs}});
 	}
 </script>
 <RouteTransition>
