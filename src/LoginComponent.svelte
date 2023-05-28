@@ -52,8 +52,7 @@
     }
 
     const load_global_view = () => {
-        console.log("Temp");
-        // navigate("/global", {});
+        navigate("/query", {state: {type: "Cafe", level: "Global"}});
     }
 </script>
 

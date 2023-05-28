@@ -104,6 +104,9 @@
 			return;
 		}
 	}
+	let load_user_cafe_ranking = () => {
+		navigate('/query', {state: {type: "Cafe", level: "User"}});
+	}
 </script>
 <RouteTransition>
 <main>
@@ -112,30 +115,33 @@
 			<h1> Search a Cafe </h1>
 			<!-- Add a text input drop down-->
 			<div class="main">
-			<form autocomplete="off" on:submit|preventDefault={submitValue}>
+				<div id="row">
+
+				<form autocomplete="off" on:submit|preventDefault={submitValue}>
 				<div id="rightcol">
-				<div class="autocomplete">
-					<input id="cafe-input"
-						   type="text"
-						   placeholder="Search Cafe Names"
-						   bind:this={cafeSearchInput}
-						   bind:value={cafeInputValue}
-						   on:input={filterCafes}>
+					<div class="autocomplete">
+						<input id="cafe-input"
+							   type="text"
+							   placeholder="Search Cafe Names"
+							   bind:this={cafeSearchInput}
+							   bind:value={cafeInputValue}
+							   on:input={filterCafes}>
+					</div>
+
+					<!-- Filtered List Of Cafes -->
+					{#if filteredCafes.length > 0}
+						<ul id="autocomplete-items-list">
+							{#each filteredCafes as cafe, i}
+								<ListItem itemLabel={cafe} highlighted={i === hiLiteIndex} on:click={() => setCafeInputVal(cafe)} />
+							{/each}
+						</ul>
+					{/if}
 				</div>
 
-				<!-- Filtered List Of Cafes -->
-				{#if filteredCafes.length > 0}
-					<ul id="autocomplete-items-list">
-						{#each filteredCafes as cafe, i}
-							<ListItem itemLabel={cafe} highlighted={i === hiLiteIndex} on:click={() => setCafeInputVal(cafe)} />
-						{/each}
-					</ul>
-				{/if}
-				</div>
-
-<!--				<input type="submit" value="Lookup Cafe">-->
 			</form>
-		</div>
+				<button on:click={load_user_cafe_ranking} class="login-title-btn login-btn" style="background-color: cornflowerblue"> <img src="https://img.icons8.com/ios-filled/50/espresso-cup.png" alt="Globe Icon" width="20" height="20"> View All Cafes </button>
+			</div>
+			</div>
 		</div>
 	</div>
 </main>
@@ -229,4 +235,50 @@
 		background-color: #ddd;
 	}
 
+	#row {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	button {
+		justify-content: center;
+		align-items: center;
+		margin-left: 2vw;
+	}
+
+	.login-title {
+		margin-top: 0px;
+		padding-top: 0px;
+		padding-right: 7px;
+		font-size: 30px;
+		font-weight: 700;
+		margin-bottom: 20px;
+		color: #ffffff;
+	}
+
+	.login-title-btn {
+		/*display: inline-block;*/
+		background-color: #333333;
+		color: #ffffff;
+		border: 2px solid #333333;
+		padding: 10px 20px;
+		border-radius: 4px;
+		font-size: 14px;
+		/*text-decoration: none;*/
+		/*box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.3);*/
+		transition: background-color 0.3s ease;
+		cursor: pointer;
+	}
+
+	.login-btn:hover {
+		background-color: #453333;
+	}
+
+	.login-btn img {
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 10px;
+	}
 </style>
