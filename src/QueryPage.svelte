@@ -12,7 +12,6 @@
 
     let table_data = [];
     let pricepoint;
-
     if (query.level === "User") {
         if (query.type === "Cafe") {
             coltwo = "Best Drink(s)";
@@ -94,6 +93,42 @@
                     table_data.push(temp);
                 })
             })
+        }
+    }
+    else if (query.level === "Global") {
+        if (query.type === "Cafe") {
+            colthree = "Average Rating";
+            colfour = "Average Price";
+            colfive = "Recommendation Ratio";
+            coltwo = "Num Drinks Reviewed";
+            for (const name in raw_data) {
+                let temp = {};
+                temp.name = name;
+                let rating_sum = 0;
+                raw_data[name].ratings.forEach((rating) => {
+                    rating_sum += rating;
+                })
+                temp.rating = (rating_sum / raw_data[name].ratings.length).toFixed(2);
+                let price_sum = 0;
+                raw_data[name].prices.forEach((price) => {
+                    price_sum += price;
+                })
+                temp.pricepoint = (price_sum / raw_data[name].num_drinks).toFixed(2);
+                let yes_count = 0;
+                let no_count = 0;
+                raw_data[name].recommendations.forEach((recommendation) => {
+                    if (recommendation === true) {
+                        yes_count++;
+                    } else {
+                        no_count++;
+                    }
+                })
+                temp.recommended_text = yes_count.toString() + " : " + no_count.toString();
+                temp.coltwo = raw_data[name].num_drinks;
+                temp.comment = "";
+                console.log(temp);
+                table_data.push(temp);
+            }
         }
     }
 

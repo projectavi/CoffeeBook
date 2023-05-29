@@ -51,8 +51,44 @@
         // console.log("oauth");
     }
 
-    const load_global_view = () => {
-        navigate("/query", {state: {type: "Cafe", level: "Global"}});
+    const load_global_view = async () => {
+        let raw_data = {};
+        const db = firebase.firestore();
+        await db.collection("users").get().then((querySnapshot) => {
+            querySnapshot.forEach((user) => {
+                let user_data = user.data();
+                user_data.cafeTable.forEach((cafe) => {
+                    if (raw_data[cafe.name] == undefined) {
+                        console.log(cafe.name);
+                        raw_data[cafe.name] = {
+                            name: cafe.name,
+                            ratings: [cafe.rating],
+                            prices: [],
+                            avg_rating: -1,
+                            avg_price: -1,
+                            recommendations: [cafe.recommend],
+                            recommendation_ratio: -1,
+                            num_drinks: cafe.drinks.length,
+                        }
+                        let price_sum = 0;
+                        cafe.drinks.forEach((drink) => {
+                            price_sum += drink.price;
+                        });
+                        raw_data[cafe.name].prices.push(price_sum);
+                    } else {
+                        raw_data[cafe.name].ratings.push(cafe.rating);
+                        let price_sum = 0;
+                        cafe.drinks.forEach((drink) => {
+                            price_sum += drink.price;
+                        });
+                        raw_data[cafe.name].prices.push(price_sum);
+                        raw_data[cafe.name].recommendations.push(cafe.recommend);
+                        raw_data[cafe.name].num_drinks += cafe.drinks.length;
+                    }
+                })
+            })
+        })
+        navigate("/query", {state: {type: "Cafe", level: "Global", data: raw_data}});
     }
 </script>
 
