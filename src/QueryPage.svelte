@@ -87,6 +87,7 @@
                         temp.recommended_text = "No";
                     }
                     temp.coltwo = cafe.name;
+                    table_data.push(temp);
                 })
             })
         }

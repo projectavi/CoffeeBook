@@ -107,6 +107,10 @@
 	let load_user_cafe_ranking = () => {
 		navigate('/query', {state: {type: "Cafe", level: "User", data: cafeObjs}});
 	}
+
+	let load_user_drink_ranking = () => {
+		navigate('/query', {state: {type: "Drink", level: "User", data: cafeObjs}});
+	}
 </script>
 <RouteTransition>
 <main>
@@ -140,6 +144,7 @@
 
 			</form>
 				<button on:click={load_user_cafe_ranking} class="login-title-btn login-btn" style="background-color: cornflowerblue"> <img src="https://img.icons8.com/ios-filled/50/espresso-cup.png" alt="Globe Icon" width="20" height="20"> View All Cafes </button>
+					<button on:click={load_user_drink_ranking} class="login-title-btn login-btn" style="background-color: cornflowerblue"> <img src="https://img.icons8.com/ios-filled/50/espresso-cup.png" alt="Globe Icon" width="20" height="20"> View All Drinks </button>
 			</div>
 			</div>
 		</div>
