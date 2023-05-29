@@ -6,11 +6,7 @@
 
     let query = $location.state;
 
-    let colthree = "Price";
-
-    if (query.type === "Cafe") {
-        colthree= "Average Price";
-    }
+    let coltwo, colthree, colfour, colfive;
 
     let raw_data = query.data;
 
@@ -18,31 +14,82 @@
     let pricepoint;
 
     if (query.level === "User") {
-        raw_data.forEach((obj) => {
-            let temp = {};
-            temp.name = obj.name;
-            temp.rating = obj.rating;
-            if (query.type === "Drink") {
-                temp.pricepoint = obj.price;
-            }
-            else {
-                pricepoint = 0;
-                obj.drinks.forEach((drink) => {
-                    pricepoint += drink.price;
-                })
-                pricepoint = pricepoint / obj.drinks.length;
-                temp.pricepoint = pricepoint.toFixed(2);
-            }
+        if (query.type === "Cafe") {
+            coltwo = "Best Drink(s)";
+            colthree = "Rating";
+            colfour = "Average Price";
+            colfive = "Recommended";
+            raw_data.forEach((obj) => {
+                let temp = {};
+                temp.name = obj.name;
+                temp.rating = obj.rating;
+                if (query.type === "Drink") {
+                    temp.pricepoint = obj.price;
+                } else {
+                    pricepoint = 0;
+                    obj.drinks.forEach((drink) => {
+                        pricepoint += drink.price;
+                    })
+                    pricepoint = pricepoint / obj.drinks.length;
+                    temp.pricepoint = pricepoint.toFixed(2);
+                }
 
-            if (obj.recommend === true) {
-                temp.recommended_text = "Yes";
-            }
-            else {
-                temp.recommended_text = "No";
-            }
-            temp.comment = ""; // This is for the comment/description field which I haven't implemented yet
-            table_data.push(temp);
-        });
+                temp.coltwo = "No Drinks Added";
+                let max_rating = -1;
+                temp.comment = "Recommended Drinks: ";
+                obj.drinks.forEach((drink) => {
+                    if (drink.recommend === true) {
+                        if (temp.comment === "Recommended Drinks: ") {
+                            temp.comment = temp.comment + drink.name;
+                        }
+                        else {
+                            temp.comment = temp.comment + ", " + drink.name;
+                        }
+                    }
+                    if (drink.rating >= max_rating) {
+                        max_rating = drink.rating;
+                        temp.coltwo = drink.name;
+                    }
+                })
+                let name = temp.coltwo;
+                obj.drinks.forEach((drink) => {
+                    if (drink.rating >= max_rating) {
+                        if (drink.name !== name) {
+                            temp.coltwo = temp.coltwo + ", " + drink.name;
+                        }
+                    }
+                })
+
+                if (obj.recommend === true) {
+                    temp.recommended_text = "Yes";
+                } else {
+                    temp.recommended_text = "No";
+                }
+                // temp.comment = ""; // This is for the comment/description field which I haven't implemented yet
+                console.log(temp.comment);
+                table_data.push(temp);
+            });
+        }
+        else if (query.type === "Drink") {
+            coltwo = "Cafe";
+            colthree = "Rating";
+            colfour = "Price";
+            colfive = "Recommended";
+            raw_data.forEach((cafe) => {
+                cafe.drinks.forEach((drink) => {
+                    let temp = {};
+                    temp.name = drink.name;
+                    temp.rating = drink.rating;
+                    temp.pricepoint = drink.price;
+                    if (drink.recommend === true) {
+                        temp.recommended_text = "Yes";
+                    } else {
+                        temp.recommended_text = "No";
+                    }
+                    temp.coltwo = cafe.name;
+                })
+            })
+        }
     }
 
 </script>
@@ -57,9 +104,10 @@
         <main class="row title">
             <ul>
                 <li>{query.type}</li>
-                <li>Rating</li>
+                <li>{coltwo}</li>
                 <li>{colthree}</li>
-                <li>Recommended</li>
+                <li>{colfour}</li>
+                <li>{colfive}</li>
             </ul>
         </main>
         <!-- Row 1 - fadeIn -->
@@ -68,6 +116,7 @@
             <article class="row fadeIn nfl">
                 <ul>
                     <li><a href="#"> {item.name} </a><span class="small"></span></li>
+                    <li> {item.coltwo} </li>
                     <li> {item.rating} </li>
                     <li> {item.pricepoint} </li>
                     <li> {item.recommended_text} </li>
