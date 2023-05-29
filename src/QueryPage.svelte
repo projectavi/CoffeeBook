@@ -87,6 +87,10 @@
                         temp.recommended_text = "No";
                     }
                     temp.coltwo = cafe.name;
+                    temp.comment = "";
+                    for (const key in drink.ratingValues) {
+                        temp.comment = temp.comment + key + ": " + drink.ratingValues[key] + ", ";
+                    }
                     table_data.push(temp);
                 })
             })
@@ -170,6 +174,7 @@
     }
 
     body {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -180,8 +185,6 @@
         border-radius: 25px;
 
         /*margin-bottom: 10vh;*/
-
-        overflow-y: hidden;
 
         //background-color: #ffffff;
 
@@ -210,8 +213,11 @@
       padding:0;
       background:$light-bg;
       color:$text;
-      overflow:hidden;
-      position:relative;
+      overflow:scroll;
+      position: relative;
+      //overflow-y: hidden;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
     }
 
     /* lists */
