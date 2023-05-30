@@ -69,9 +69,11 @@
                             recommendations: [cafe.recommend],
                             recommendation_ratio: -1,
                             num_drinks: cafe.drinks.length,
+                            drinks: [],
                         }
                         let price_sum = 0;
                         cafe.drinks.forEach((drink) => {
+                            raw_data[cafe.name].drinks.push({name: drink.name, data: [drink], users: [user_data.name]})
                             price_sum += drink.price;
                         });
                         raw_data[cafe.name].prices.push(price_sum);
@@ -79,6 +81,17 @@
                         raw_data[cafe.name].ratings.push(cafe.rating);
                         let price_sum = 0;
                         cafe.drinks.forEach((drink) => {
+                            let i;
+                            for (i = 0; i < raw_data[cafe.name].drinks.length; i++) {
+                                if (raw_data[cafe.name].drinks[i].name == drink.name) {
+                                    raw_data[cafe.name].drinks[i].data.push(drink);
+                                    raw_data[cafe.name].drinks[i].users.push(user_data.name);
+                                    break;
+                                }
+                            }
+                            if (i == raw_data[cafe.name].drinks.length) {
+                                raw_data[cafe.name].drinks.push({name: drink.name, data: [drink], users: [user_data.name]})
+                            }
                             price_sum += drink.price;
                         });
                         raw_data[cafe.name].prices.push(price_sum);

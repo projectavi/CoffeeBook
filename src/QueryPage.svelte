@@ -1,5 +1,5 @@
 <script>
-    import { useLocation } from 'svelte-navigator';
+    import {navigate, useLocation} from 'svelte-navigator';
     import RouteTransition from "./RouteTransition.svelte";
 
     const location = useLocation();
@@ -7,6 +7,11 @@
     let query = $location.state;
 
     let coltwo, colthree, colfour, colfive;
+
+    let route;
+    if (query.type === "Cafe") {
+        route = "/cafe-query";
+    }
 
     let raw_data = query.data;
 
@@ -132,6 +137,20 @@
         }
     }
 
+    const item_link = (item) => {
+        console.log("Click");
+        // Search through data for the cafeObj
+        let query_state = {};
+        if (query.level === "Global") {
+            query_state.display = "Balloons";
+            query_state.info = "Cafe";
+            query_state.title = item.name;
+            query_state.level = query.level;
+            query_state.data = {raw_data: raw_data[item.name], tabled_data: item};
+        }
+        navigate(route, {state: query_state});
+    };
+
 </script>
 <RouteTransition>
 <main id="main">
@@ -155,7 +174,7 @@
         <section class="row-fadeIn-wrapper">
             <article class="row fadeIn nfl">
                 <ul>
-                    <li><a href="#"> {item.name} </a><span class="small"></span></li>
+                    <li><a on:click={() => item_link(item)}> {item.name} </a><span class="small"></span></li>
                     <li> {item.coltwo} </li>
                     <li> {item.rating} </li>
                     <li> {item.pricepoint} </li>

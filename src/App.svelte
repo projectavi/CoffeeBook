@@ -10,6 +10,7 @@
     import TransitionContainer from "./TransitionContainer.svelte";
     import CafePreferences from "./CafePreferences.svelte";
     import QueryPage from "./QueryPage.svelte";
+    import CafeQuery from "./CafeQuery.svelte";
 
 </script>
 
@@ -21,6 +22,7 @@
         <Route path="cafe" component={Cafe} />
         <Route path="preferences" component={CafePreferences} />
         <Route path="query" component={QueryPage} />
+        <Route path="cafe-query" component={CafeQuery} />
     </TransitionContainer>
 </main>
 </Router>
